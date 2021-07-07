@@ -31,6 +31,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -46,6 +49,8 @@ import org.springframework.samples.petclinic.visit.Visit;
  */
 @Entity
 @Table(name = "pets")
+@Getter
+@Setter
 public class Pet extends NamedEntity {
 
 	@Column(name = "birth_date")
@@ -60,32 +65,10 @@ public class Pet extends NamedEntity {
 	@JoinColumn(name = "owner_id")
 	private Owner owner;
 
+	@Getter(AccessLevel.NONE)
+	@Setter(AccessLevel.NONE)
 	@Transient
 	private Set<Visit> visits = new LinkedHashSet<>();
-
-	public void setBirthDate(LocalDate birthDate) {
-		this.birthDate = birthDate;
-	}
-
-	public LocalDate getBirthDate() {
-		return this.birthDate;
-	}
-
-	public PetType getType() {
-		return this.type;
-	}
-
-	public void setType(PetType type) {
-		this.type = type;
-	}
-
-	public Owner getOwner() {
-		return this.owner;
-	}
-
-	protected void setOwner(Owner owner) {
-		this.owner = owner;
-	}
 
 	protected Set<Visit> getVisitsInternal() {
 		if (this.visits == null) {
